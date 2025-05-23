@@ -18,14 +18,16 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
   @override
   void initState() {
     super.initState();
-    // Automatically fetch albums when the screen loads
     context.read<AlbumBloc>().add(FetchAlbumsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Albums")),
+      appBar: AppBar(
+        title: const Text("Albums"),
+        backgroundColor: Colors.green.shade700,
+      ),
       body: BlocBuilder<AlbumBloc, AlbumState>(
         builder: (context, state) {
           if (state is AlbumLoadingState) {
@@ -61,10 +63,11 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
                   child: Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(14),
                     ),
+                    color: Colors.green.shade50,
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
@@ -72,7 +75,12 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                          errorBuilder: (_, __, ___) => Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.green.shade100,
+                            child: const Icon(Icons.broken_image),
+                          ),
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return const SizedBox(
@@ -85,9 +93,12 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
                       ),
                       title: Text(
                         album.title,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green.shade900,
+                        ),
                       ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.green.shade600),
                     ),
                   ),
                 );
