@@ -1,15 +1,26 @@
-
-import 'package:album_app/viewmodels/bloc/album_bloc.dart';
-import 'package:album_app/viewmodels/bloc/album_event.dart';
-import 'package:album_app/viewmodels/bloc/album_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/photo.dart';
+import '../viewmodels/bloc/album_bloc.dart';
+import '../viewmodels/bloc/album_event.dart';
+import '../viewmodels/bloc/album_state.dart';
 
-class AlbumListScreen extends StatelessWidget {
+class AlbumListScreen extends StatefulWidget {
   const AlbumListScreen({super.key});
+
+  @override
+  State<AlbumListScreen> createState() => _AlbumListScreenState();
+}
+
+class _AlbumListScreenState extends State<AlbumListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Automatically fetch albums when the screen loads
+    context.read<AlbumBloc>().add(FetchAlbumsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +33,12 @@ class AlbumListScreen extends StatelessWidget {
           }
 
           if (state is AlbumErrorState) {
-            return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+            return Center(
+              child: Text(
+                state.message,
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
           }
 
           if (state is AlbumLoadedState) {
@@ -44,7 +60,9 @@ class AlbumListScreen extends StatelessWidget {
                   onTap: () => context.go('/detail/${album.id}'),
                   child: Card(
                     elevation: 4,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       leading: ClipRRect(
@@ -77,13 +95,8 @@ class AlbumListScreen extends StatelessWidget {
             );
           }
 
-          return const Center(child: Text("Tap refresh to load albums."));
+          return const Center(child: Text("No albums available."));
         },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.read<AlbumBloc>().add(FetchAlbumsEvent()),
-        icon: const Icon(Icons.refresh),
-        label: const Text("Refresh"),
       ),
     );
   }
