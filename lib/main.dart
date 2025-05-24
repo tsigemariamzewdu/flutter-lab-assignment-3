@@ -2,7 +2,7 @@ import 'package:album_app/repository/album_repository.dart';
 import 'package:album_app/viewmodels/bloc/album_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/src/router.dart';
+
 import 'app_router.dart';
 import 'data/api_service.dart';
 
