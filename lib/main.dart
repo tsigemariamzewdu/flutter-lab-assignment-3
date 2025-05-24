@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         create: (context) => AlbumBloc(context.read<AlbumRepository>()),
         child: MaterialApp.router(
           title: 'Album App',
+          debugShowCheckedModeBanner: false,
           routerConfig: router,
           theme: ThemeData(primarySwatch: Colors.blue),
         ),
